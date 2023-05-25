@@ -1,6 +1,6 @@
 # Leetcode-Python10
 
-## 20. Valid Parentheses, 1047. Remove All Adjacent Duplicates In String
+## 20. Valid Parentheses, 1047. Remove All Adjacent Duplicates In String, 150. Evaluate Reverse Polish Notation
 
 May 24, 2023  4h
 
@@ -12,7 +12,7 @@ The challenges today are about ~~need to be finished later.~~
 [Reading link](https://github.com/youngyangyang04/leetcode-master/blob/master/problems/0020.%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7.md)\
 [video](https://www.bilibili.com/video/BV1AF411w78g/?spm_id_from=pageDriver&vd_source=63f26efad0d35bcbb0de794512ac21f3)\
 Here we use stack to solve this problem. \
-It would be easier to think about the 3 different types of disagreement first.\
+It would be easier to think about the 3 different types of disagreement first.
 ```python
 # ways 1: use stack
 class Solution:
@@ -98,9 +98,43 @@ class Solution:
         return ''.join(res[0: slow])
 ```
 
-
-
-
+## 150. Evaluate Reverse Polish Notation
+[leetcode](https://leetcode.com/problems/evaluate-reverse-polish-notation/)\
+[reading](https://github.com/youngyangyang04/leetcode-master/blob/master/problems/0150.%E9%80%86%E6%B3%A2%E5%85%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC.md)\
+[video](https://www.bilibili.com/video/BV1kd4y1o7on/?spm_id_from=333.788&vd_source=63f26efad0d35bcbb0de794512ac21f3)\
+Ha? Polish notation is an easy expression that is easy for computer to process, and doesn't need brackets.\
+We use stack to solve this problem. When the item is an number, we put it into the stack; when loop to a notation, we take/pop two numbers out of the stack and do the operation, and then put the result back into the stack, and loop to the next item.\
+This is similar to the last two questions.
+```python
+# ways 1: use stack and eval() function for operations:
+class Solution:
+    def evalRPN(self, tokens: List[str]) -> int:
+        stack = []
+        for item in tokens:
+            if item not in {'+','-','*','/'}:
+                stack.append(item)
+            else:
+                first_num, second_num = stack.pop(), stack.pop()
+                stack.append(int(eval(f'{second_num}{item}{first_num}')))
+        return int(stack.pop()) # 如果一开始只有一个数，那么会是字符串形式的
+```
+```python
+# ways 2: use stack and dictionary:
+from operator import add, sub, mul
+class Solution:
+    op_map = {'+': add, '-': sub, '*': mul, '/': lambda x, y: int(x / y)}
+    
+    def evalRPN(self, tokens: List[str]) -> int:
+        stack = []
+        for token in tokens:
+            if token not in {'+', '-', '*', '/'}:
+                stack.append(int(token))
+            else:
+                op2 = stack.pop()
+                op1 = stack.pop()
+                stack.append(self.op_map[token](op1, op2))  # 第一个出来的在运算符后面
+        return stack.pop()
+```
 
 
 
