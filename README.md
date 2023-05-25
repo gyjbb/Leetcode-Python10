@@ -5,7 +5,7 @@
 May 24, 2023  4h
 
 The tenth day for leetcode python study. Today we will learn more the classic use of **stack**.\
-The challenges today are about ~~need to be finished later.~~
+The challenges today are about using stack to solve the match and removal question, it helps to tell us what the match items are.
 
 ## 20. Valid Parentheses
 [leetcode](https://leetcode.com/problems/valid-parentheses/)\
